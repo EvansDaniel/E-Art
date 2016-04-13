@@ -1,0 +1,61 @@
+body {
+  padding: 100px;
+  -webkit-font-smoothing: antialiased;
+}
+
+input {
+  background: none;
+  border: solid 2px #00688B;
+  color: #00688B;
+  padding: 15px 40px;
+  font-size: 18px;
+  display: inline-block;
+}
+input:focus, input:active {
+  outline: none;
+}
+input[type="text"], input[type="email"] {
+  border: none;
+  border-bottom: solid 2px #00688B;
+}
+input[type="submit"]:active {
+  color: white;
+  background: #00688B;
+}
+#submit {
+  background: #00688B;
+  color: white;
+  border-radius: 5px;
+}
+
+.input-group {
+  display: block;
+  margin-right: 20px;
+  position: relative;
+}
+.input-group input {
+  padding: 10px 0px;
+  margin-bottom: 20px;
+  margin-top: 20px
+}
+.input-group label {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  font-family: "Georgia", "Cambria", "Times New Roman", "Times", serif;
+  font-style: italic;
+  font-size: 18px;
+  color: #999;
+  pointer-events: none;
+  -webkit-transition: all 0.15s ease-out 0s;
+  transition: all 0.25s ease-out 0s;
+}
+.input-group input:focus + label,
+.input-group input.has-value + label {
+  top: -10px;
+  font-size: 12px;
+  color: #aaa;
+}
+
