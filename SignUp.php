@@ -1,13 +1,20 @@
-<!DOCTYPE HTML>
+<!
+DOCTYPE HTML>
 <html lang="en-US">
-
+  
 <head>
   <title>Life in Haiti</title>
-  <!--<link rel="stylesheet" type="text/css" href="styles/SignUp.css">-->
+
+
+  <link rel="stylesheet" type="text/css" href="styles/SignUp.css">
    <meta charset="UTF-8">
 </head>
 
 <body class="body" id="body">
+
+<ul>
+  <li id="icon"><a href="pHome.php" id="haiti"><img src="images/logo.png"></a></li> 
+ </ul>
 
 
 
@@ -40,7 +47,7 @@
 <!-- This check is for if the user has already submitted data-->
 <?php if(!$register->registration_successful && !$register->verification_successful) { ?>
 
-<h2>Sign Up</h2>
+<h2 id="title">Sign Up</h2>
 <form action="SignUp.php" id="SignUp" method="post" onsubmit="return ValidateForm(this);" autocomplete="on">
 
   <!-- not really sure what this input is used for --> 
@@ -57,21 +64,10 @@
   </tr>
   
   <tr>
-    <td><b>First*, Last Name*:</b></td>
+    <td><b>First*</b></td>
     <td>
       <input id="FirstName" name="FirstName" type="text" autocomplete="on"
-      maxlength="60" style="width:146px; border:1px solid #999999" />
-      <input id="LastName" name="LastName" type="text" autocomplete="on" 
-      maxlength="60" style="width:146px; border:1px solid #999999" />
-    </td>
-  </tr>
-  
-  <tr>
-    <td><b>University*</b></td>
-    <td>
-      <input id="University" name="University" type="text" autocomplete="on"
       maxlength="60" style="width:300px; border:1px solid #999999" />
-    </td>
   </tr>
   
   <tr>
@@ -85,7 +81,7 @@
   <tr>
     <td><b>Password*:</b></td>
     <td>
-      <input id="Password" name="Password" type="text" maxlength="60" autocomplete="on"
+      <input id="Password" name="Password" type="password" maxlength="60" autocomplete="on"
       style="width:300px; border:1px solid #999999" />
     </td>
   </tr>
@@ -93,9 +89,22 @@
   <tr>
     <td><b>Confirm Password*:</b></td>
     <td>
-      <input id="Confirm-Password" name="ConfirmPassword" type="text" maxlength="60" 
+      <input id="Confirm-Password" name="ConfirmPassword" type="password" maxlength="60" 
       autocomplete="on" style="width:300px; border:1px solid #999999" />
     </td>
+  </tr>
+
+  <tr>
+    <td><b>Are you a college artist?</b></td>
+    <td>
+      <input type="checkbox" id="isArtist" name="isArtist" value="1"><br>
+  </tr>
+
+  <tr>
+    <td id="text" style="display: none;"><b>College</b></td>
+    <td>
+      <input id="College" name="College" type="text" autocomplete="on" 
+      maxlength="60" style="display: none; width:300px; border:1px solid #999999" />
   </tr>
     <td colspan="2" align="center">
     <br>
@@ -127,7 +136,14 @@ but before he/she has verified by email-->
         <p>If you are not redirected, click <a href='pHome.php'>here</a></p>"; 
 } ?> 
 
+<script src="scripts/jquery-1.12.3.min.js"></script>
+
 <script>
+
+$('#isArtist').click(function() {
+    console.log($("#text").toggle(this.checked));
+    $("#College").toggle(this.checked);
+});
 
 function countdown() {
 
@@ -137,8 +153,6 @@ function countdown() {
     }
   i.innerHTML = parseInt(i.innerHTML)-1; 
 }
-
-
 
 </script>
 

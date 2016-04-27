@@ -34,16 +34,17 @@ if (isset($login)) {
             echo $message;
         }
     }
-}  
+} 
 
-
-if($login->isUserLoggedIn() == true) {
-  header('Location: http://hive.sewanee.edu/evansdb0/eArt/artist/newArtist/newArtist.php');
+// user is an artist 
+if($login->isUserLoggedIn() == true && $_SESSION['isArtist'] == 1) {
+  header('Location: http://hive.sewanee.edu/evansdb0/eArt/artist/newArtist/products.php');
 }
-else {
-  // need to include this if i plan to debug it
-  header('Location: http://hive.sewanee.edu/evansdb0/eArt/pHome.php');
-}
+// user is a buyer
+elseif($login->isUserLoggedIn() == true && !($_SESSION['isArtist'] == 1)) {
+  
+ header('Location: http://hive.sewanee.edu/evansdb0/eArt/pHome.php'); 
+} 
 
 ?>
   <body>

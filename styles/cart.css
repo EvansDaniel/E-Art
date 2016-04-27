@@ -1,0 +1,155 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300);
+img {
+	height: 65px;
+	margin-left: 25px;
+}
+html, body{
+	margin: 0px;
+}
+nav {
+	height: 100px;
+	background: rgba(0, 40, 71, 1);
+	color:white;
+	width:100%;
+}
+ul{
+	list-style: none;
+	display: block;
+	height: 100px;
+	background: rgba(0, 40, 71, 1);
+	color:white;
+	width:100%;
+}
+ul li{
+	float:left;
+	width:200px;
+	height: 100px;
+	text-align: center;
+	line-height: 100px;
+	font-size: 1.1em;
+	text-transform: uppercase;
+
+
+}
+ul li:hover{
+	background: rgba(0, 51, 87, 1);
+
+}
+ul li:active{
+	background:blue;
+}
+
+#cart h1{
+	text-transform: uppercase;
+	font-size: 1.6em;
+	font-family: 'Open Sans Condensed', sans-serif;
+	margin-left: 30px;
+}
+
+#cart table{
+	
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-size: 1.2em;
+	background: rgba(57, 128, 132, 0.1);
+	margin-left: 25px;
+	border: 1px solid rgba(54, 92, 125, 0.9);
+	box-shadow: 0px -8px 22px -12px rgba(0,0,0,0.75);
+}
+
+#cart hr{
+	width: 300px;
+	float: left;
+	margin-left: 30px;
+}
+#cart table td  {
+	font-size: 1.3em;
+	width: 200px;
+	padding: 10px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+
+
+}
+
+#price h1{
+	margin-left: 600px;
+	font-family: 'Open Sans Condensed', sans-serif;
+}
+#price hr{
+	width: 300px;
+	margin-left: 600px
+}
+#price{
+	margin-top: 50px
+}
+#price table{
+	margin-left: 600px;
+	font-family: 'Open Sans Condensed', sans-serif;
+
+
+}
+#price table tr td{
+	text-indent: 6px;
+	font-size: 1.3em;
+	text-align: left;
+}
+#price table tr #title{
+	width: 150px;
+	text-indent: 6px;
+	font-size: 1.3em;
+	height: 35px;
+	font-family: 'Open Sans Condensed', sans-serif;
+
+
+}
+#proceed {
+		margin-top: 22px;
+		background: rgba(79, 176, 131, 1);
+		border: 1px solid black;
+		height: 35px;
+		width: 150px;
+		font-size: 1.3em;
+		font-size: 16px;
+		margin-left: -10px;
+		font-family: 'Open Sans Condensed', sans-serif;
+		border-radius: 15px;
+		box-shadow: 0px -1px 5px 2.5px rgba(31,20,31,1);
+		font-weight: bold;
+}
+#category{
+	color: ;
+	font-weight: bold;
+	font-size: 0.7em;
+	margin-left: 24px;
+
+}
+#name{
+	color: rgba(102, 0, 0, 1);
+	font-size: 0.8em;
+	margin-left: 24px;
+
+	}
+#cart table tr td:nth-child(2){
+
+	font-size: 1em;
+	line-height: 50px;
+	padding-top: 120px;
+	width: 100px;
+
+
+}
+#body{
+	position: absolute;
+}
+
+#cart{
+	position: relative;
+	float: left;
+	margin-left: 5%;
+}
+#placeHolder{
+	height: 43%;
+	width: 200px;
+	margin-left: 600px;
+
+}

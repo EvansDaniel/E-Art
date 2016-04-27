@@ -1,0 +1,365 @@
+
+<html lang="en-US">
+
+<head>
+
+  <?php 
+    session_start();
+  ?>
+  <title>Life in Haiti</title>
+  <link rel="stylesheet" type="text/css" href="styles/pHome.css">
+  <script src="scripts/jquery-2.2.3.js"></script>
+  <script >
+      function el(i){
+        return document.getElementById(i);
+
+      }
+      $(function(){
+      el("search").addEventListener('focus', function(){
+      
+      el("nav7").setAttribute("style","visibility: hidden");
+    
+    
+    }, false);
+      el("search").addEventListener('blur', function(){
+      
+      el("nav7").setAttribute("style","visibility: visible");
+    
+    
+    }, false);
+
+      var images = jQuery("#listings li div a img");
+      
+/*
+      for (var i=0; i<images.length; i++){
+      jQuery('aside:nth-child(i)').each(function(index) {
+        
+        console.log('1');
+      });
+    }
+        var button = jQuery("#"+i+""); 
+
+        images[i].addEventListener('mouseover', function(){
+          console.log(i);
+          button.css("visibility","visible");
+                  });
+     // }
+    
+  */
+  });
+  </script>
+   <meta charset="UTF-8">
+
+</head>
+   
+<body class="body" id="body">
+
+  <?php 
+    require_once('dbLogin.php');
+    require_once("searchFunctions.php");
+  ?>
+    
+    
+
+<!--<header class="header"> -->
+
+<nav id="navs">
+
+  <ul>
+  
+    <li id="nav1">
+      <div class="icon"><a class="haiti" title="Back to Home."
+      href="pHome.php"><img src="images/logo.png"></a></div>
+    </li>
+    
+    <li id="nav2"><a href="https://www.flickr.com/explore">Paintings</a>                      
+    </li>
+    
+    <li id="nav3"><a href="https://www.flickr.com/create">Photography</a></li>
+    </li>
+    
+    <li id="nav4"><a>Sculpture</a>
+    </li>
+    
+    <li id="nav6" style="margin-left:15px">
+      <a href="upload.php">Videos & Films
+      </a>
+    </li>
+    
+    <li id="nav5"><form><input id="search" type="search"  class="Search" method="get" name="search"
+        placeholder="Photos, people, places..."></form>
+    </li>
+    
+    <li id="nav7">
+      <a href="SignUp.php">Sign Up
+      </a>
+    </li>
+    
+    <li class="liSignIn" id="nav8">  
+      <button id="signIn" onclick="login()">Sign In
+      </button>
+    </li>    
+  </ul>
+</nav>
+<!-- new shit -->
+<div id="fade" class="black_overlay"></div>
+
+<div class="login" id="login34">
+  <div class="login-outer">
+    <div class="login-inner">
+      <div class="login-box">
+        <h2 class="box-heading">
+                 Login to your Haiti photo account!
+        </h2>
+        <p id="hline">  <p>
+        <div class="login-wrapper">
+
+          <div class="box-bottom">
+
+            <form class="login-form" name="login-form" action="i.php" method="post" >
+              <div class="manage-login-fields-wrapper">
+                <div class="email-form-item">
+                  <input type="text" id="email" name="user_email" placeholder="Email Address" 
+                  class = "email-input"/>
+                </div>
+                <div class="password-form-item">
+                  <input type="text" name="user_password" placeholder="Password" 
+                  class = "pass-input"/>
+                </div>
+                <label>rememeber me</label>
+                <div class="rememberme">
+                  <input type="checkbox" name="user_rememberme"
+                  class = "rememberme"/>
+                </div>
+              </div> <!-- manage-fields -->
+              <div class="form-actions">
+                <div class="submit-row">
+                  <button type="submit" name="login" value="login" class="login-primary">Login
+                  </button>
+                  <span id="or">or<br> </span>
+                  <a id="forgot" href="password_reset.php">Forgot Password</a>
+                </div> <!-- submit-row -->
+              </div> <!-- form-actions -->
+            </form> <!-- login-form -->
+          </div> <!-- box-bottom -->
+        </div> <!-- login-wrapper -->
+        <div class="box-footer">
+          Don't have an account? <a href="SignUp.php">Sign up</a> 
+        </div> <!-- box-footer -->
+      </div> <!-- login-box -->
+    </div> <!-- login-inner -->
+  </div> <!-- login-outer --> 
+</div> <!-- login-skin -->
+<!-- end new shit-->
+<div id="body">
+
+  <ul id="listings">
+<?php 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+$con = new mysqli($host,$u,$p,$db);
+if(isset($_GET['search'])) {
+  
+  $s = $_GET['search'];
+  search(get_new_words($s),$con);
+}
+?>
+    <li> 
+      <div>
+        <div>
+          <a href="http://www.yogakitty.com"><img src="images/21H.jpg">
+          <button class="quicklook" id="1"> Quick Look</button>
+        </div>
+      <aside>
+        
+        <p id="title">Mother Nature Call</p>
+        <p id="price">35.99</p>
+        <p id="artist">Danny the Great</p>
+        <p id="type">   
+        </a>
+      </aside>  
+      </div>
+    </li>
+
+    <li> 
+      <div>
+        <div>
+          <a href="http://www.yogakitty.com"><img src="images/21H.jpg">
+          <button class="quicklook" id="1"> Quick Look</button>
+        </div>
+      <aside>
+        
+        <p id="title">Mother Nature Call</p>
+        <p id="price">35.99</p>
+        <p id="artist">Danny the Great</p>  
+        </a>
+      </aside>  
+      </div>
+    </li>
+
+    <li> 
+      <div>
+        <div>
+          <a href="http://www.yogakitty.com"><img src="images/21H.jpg">
+          <button class="quicklook" id="1"> Quick Look</button>
+        </div>
+      <aside>
+        
+        <p id="title">Mother Nature Call</p>
+        <p id="price">35.99</p>
+        <p id="artist">Danny the Great</p>  
+        </a>
+      </aside>  
+      </div>
+    </li>>
+
+    <li> 
+      <div>
+        <div>
+          <a href="http://www.yogakitty.com"><img src="images/21H.jpg">
+          <button class="quicklook" id="1"> Quick Look</button>
+        </div>
+      <aside>
+        
+        <p id="title">Mother Nature Call</p>
+        <p id="price">35.99</p>
+        <p id="artist">Danny the Great</p>  
+        </a>
+      </aside>  
+      </div>
+    </li>
+
+    <li> 
+      <div>
+        <div>
+          <a href="http://www.yogakitty.com"><img src="images/21H.jpg">
+          <button class="quicklook" id="1"> Quick Look</button>
+        </div>
+      <aside>
+        
+        <p id="title">Mother Nature Call</p>
+        <p id="price">35.99</p>
+        <p id="artist">Danny the Great</p>  
+        </a>
+      </aside>  
+      </div>
+    </li>
+
+    <li> 
+      <div>
+        <div>
+          <a href="http://www.yogakitty.com"><img src="images/21H.jpg">
+          <button class="quicklook" id="1"> Quick Look</button>
+        </div>
+      <aside>
+        
+        <p id="title">Mother Nature Call</p>
+        <p id="price">35.99</p>
+        <p id="artist">Danny the Great</p>  
+        </a>
+      </aside>  
+      </div>
+    </li>
+
+    <li> 
+      <div>
+        <div>
+          <a href="http://www.yogakitty.com"><img src="images/21H.jpg">
+          <button class="quicklook" id="1"> Quick Look</button>
+        </div>
+      <aside>
+        
+        <p id="title">Mother Nature Call</p>
+        <p id="price">35.99</p>
+        <p id="artist">Danny the Great</p>  
+        </a>
+      </aside>  
+      </div>
+    </li>
+
+    <li> 
+      <div>
+        <div>
+          <a href="http://www.yogakitty.com"><img src="images/21H.jpg">
+          <button class="quicklook" id="1"> Quick Look</button>
+        </div>
+      <aside>
+        
+        <p id="title">Mother Nature Call</p>
+        <p id="price">35.99</p>
+      
+        <p id="artist">Danny the Great</p>  
+        </a>
+      </aside>  
+      </div>
+    </li>
+
+
+
+  </ul>
+
+</div>
+
+
+
+
+
+
+
+<script>
+
+var fade =  $('fade');
+
+// adds onclick to the fade overlay, makes login disappear and fade go away
+fade.addEventListener('click', function (event) {
+
+      
+      $('fade').style.visibility='hidden';
+      $('login34').style.visibility = 'hidden';
+      $('body').style.overflow='visible';
+
+ });
+    // leave 1st line while working on pop up, then erase.. its in the sign up onclick
+    
+function login() {
+      // makes login form pop up 
+      $('fade').style.visibility='visible';
+      $('login34').style.visibility = 'visible';
+      document.getElementById('fade').style.display='block';
+      document.getElementById('login34').style.display='block';
+      document.getElementById('body').style.overflow='hidden';
+      document.getElementById("email").focus();
+      window.scrollTo(0,0);
+    }
+function $(id) {
+  return document.getElementById(id);
+}
+</script>
+
+
+<!---------------------------------  Blaise's Scripts ------------------------------------------->
+
+
+
+</body>
+ 
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,9 +2,8 @@
 
 
 require_once('swiftmailer/lib/swift_required.php');
-
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+  ini_set('display_errors', 1);
+  error_reporting(E_ALL);
 
 
 class Registration 
@@ -29,14 +28,16 @@ class Registration
     // if we have such a POST request, call the registerNewUser() method
     if (isset($_POST["submit"])) {
     
-      // TODO: need to perform html sanitation on these post variables
+      // TODO: need to perform html sanitation on these post variable
       $this->registerNewUser($_POST['UserName']
                             ,$_POST['EmailAddress']
                             ,$_POST['Password']
                             ,$_POST['ConfirmPassword']
                             ,$_POST['FirstName']
-                            ,$_POST['LastName']
-                            ,$_POST['University']);  
+                            ,$_POST['isArtist']
+                            ,$_POST['College']); 
+
+
                             
       // if we have such a GET request, call the verifyNewUser() method
     } else if (isset($_GET["id"]) && 
@@ -48,7 +49,7 @@ class Registration
     
   }
   
- 
+
   private function databaseConnection()
   
   {
@@ -58,12 +59,15 @@ class Registration
     } 
     else {
            
-      $this->conn = new mysqli('crisler.sewanee.edu'
-                              ,'user'
-                              ,'csci'
-                              ,'artists');  
+      $this->conn = new mysqli("crisler.sewanee.edu"
+                              ,"user"
+                              ,"csci"
+                              ,"eArt");  
       // throw error if conn fails
-      if ($this->conn->connect_error) die($this->conn->connect_error); 
+      if ($this->conn->connect_error) {
+        die($this->conn->connect_error); 
+        return false;
+      }
       return true;
     }
     return false; 
@@ -76,12 +80,21 @@ class Registration
   
   // handles the entire registration process. checks all error possibilities 
   // and creates a new user in the database if everything is fine
+  /*
+     $this->registerNewUser($_POST['UserName']
+                            ,$_POST['EmailAddress']
+                            ,$_POST['Password']
+                            ,$_POST['ConfirmPassword']
+                            ,$_POST['FirstName']
+                            ,$_POST['isArtist']
+                            ,$_POST['College']); 
+  */
  private function registerNewUser($user_name
                                   ,$user_email
                                   ,$user_password
                                   ,$user_password_repeat
                                   ,$fName
-                                  ,$lName
+                                  ,$isArtist
                                   ,$college)
   
 
@@ -108,29 +121,19 @@ class Registration
         $this->errors[] = "The email entered is too long";
     } elseif (!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
         $this->errors[] = "The email you entered is invalid";
-        
       // check length of first name
     } elseif (strlen($fName)==0 || strlen($fName) > 25) {
         $this->errors[] = 
         "The first name field is either empty or too long ". strlen($fname);
       // check length of last name 
-    } elseif (strlen($lName)==0 || strlen($lName) > 25) {
-        $this->errors[] = 
-        "The last name field is either empty or too long ". strlen($lName);
-        
-      // check length of career
-    } elseif (strlen($college) > 25) {
-        $this->errors[] = "The career field is too long ". strlen($career);
-    } elseif(empty($college)) {
-        $this->errors[] = "The career field is empty";
-    }
-    
-    
+    } elseif(isset($college) && strlen($college) > 75) {
+        $this->errors[] = "The college field is too long";
+      }
     // all verifications good 
     elseif ($this->databaseConnection()) {
     
       $fName = trim($fName);
-      $lName = trim($lName);
+
       
       // TODO: sanitize user input or use prepare statement
       // removes all dashes, whitespace, and parens from phone number
@@ -138,101 +141,124 @@ class Registration
       // TODO: make this a prepare statement 
       $checkForEmail = 
         
-      "select email from artistLogin where email = '$user_email'";
+      "select email from people where email = '$user_email'";
       
       // store result 
       $r = $this->conn->query($checkForEmail);
       
       $checkUserName = 
         
-      "select userName from artistLogin where userName = '$user_name'";
+      "select userName from people where userName = '$user_name'";
       
       $res = $this->conn->query($checkUserName);
 
-      
-      // if there is no other email like this one ($r->num_rows < 1) &&
-      // ensures userNames are unique $res->num_rows < 1
-      if(true) {
-        // ensures usernames are unique
-        if(true) {
+      // ensures userNames are unique
+      if(true) { // $res->num_rows < 1
+        // ensures emails are unique
+        if(true) {  // $r->num_rows < 1
           $pass_hash = password_hash($user_password, PASSWORD_DEFAULT);
           $activateAccountHash = sha1(uniqid(mt_rand(), true));
           $date = date("Y-m-d H:i:s");
-          
-          // TODO: tag table & category & address = general, orders
-          $artistItemTableName = $user_name . "Items";
-          
-          // create the tables for the artist's products and orders
-          $query = "create table $artistItemTableName(
-                    itemId     int unsigned not null auto_increment primary key,
-                    name       varchar(50),
-                    artistId   int,
-                    categoryId int,
-                    price      int,
-                    description varchar(1000), 
-                    fiTag      int,
-                    sTag       int,
-                    thTag      int,
-                    imgPath    varchar(100),
-                    inStock    tinyint(1),
-                    productRank int
-                   
-                    )";
-           // run create table query
-           $r = $this->conn->query($query);
-           if(!$r) echo $this->con->error;
-           
-          $artistOrdersTableName = $user_name . "Orders"; 
-          $query = "create table $artistOrdersTableName(
-          
-                    orderId   int unsigned not null auto_increment primary key,
-                    itemId    int,
-                    shippingAddress varchar(80),
-                    date      date,
-                    shipped   tinyint(1),
-                    delivered tinyint(1)
-                   
-                    )";
-           // run create table query
-           $r = $this->conn->query($query);
-           if(!$r) echo $this->con->error;
-                   
 
           // write users information into the database
-          $new_artistLogin_insert = $this->conn->query
-          
-          ("insert into artistLogin(userName,passHash,email,fName,lName,college)
-          
-          VALUES('$user_name','$pass_hash','$user_email','$fName','$lName','$college')");
-          
-          if(!$new_artistLogin_insert) echo $this->conn->error;
-          
 
-        
-          // get auto-generated id from last insert        
-          $user_id = $this->conn->insert_id; 
-          if($new_artistLogin_insert) {
+          // later on these "people" will be turned into artists
+          // and/or buyers by the act of buying something 
+          // or placing something on his or her store
+          $new_people_insert = 0;
+          
+          if(isset($isArtist) && $isArtist == 1) {
+
+            if(isset($college)) {
+
+              $q = "insert into artists(college) 
+
+              VALUE('$college')"; 
+
+              $this->conn->query($q);
+
+              // get auto-generated id from last insert        
+              $user_id = $this->conn->insert_id; 
+
+              $new_people_insert = $this->conn->query
+          
+          ("insert into people(userName,passHash,email,fName,isArtist,artistId)
+          
+          VALUES('$user_name','$pass_hash','$user_email','$fName','1',
+
+          (select artistId from artists where artistId='$user_id'))");
+
+              $q = "create table " . $user_name . "Orders(
+                orderId int unsigned not null auto_increment primary key,
+                peopleId int,
+                itemId int,
+                addressId int,
+                dateOfBuy date,
+                isShipped tinyint(1) unsigned,
+                isDelivered tinyint(1) unsigned
+
+              )"; 
+
+                $this->conn->query($q);
+    
+                echo "<br><br><br>";
+            
+            if(!$new_people_insert) echo $this->conn->error;
+
+            }
+            else {
+              $errors[] = "You didn't enter a college";
+              return;
+            }
+          }
+          else {
+            $new_people_insert = $this->conn->query
+          
+            ("insert into people(userName,passHash,email,fName)
+          
+            VALUES('$user_name','$pass_hash','$user_email','$fName')");
+
+            $user_id = $this->conn->insert_id;
+
+          }
+          $q = "create table " . $user_name . "Addresses(
+            addressId int unsigned not null auto_increment primary key,
+            address varchar(100)
+
+          )"; 
+          $this->conn->query($q);
+          
+          if($new_people_insert) {
+            /*
+
+Notice: Undefined property: Registration::$con in /var/www/html/evansdb0/eArt/classes/Registration.php on line 225
+
+Notice: Trying to get property of non-object in /var/www/html/evansdb0/eArt/classes/Registration.php on line 225
+
+            */
+
+          
+            
+
 
             if($this->sendVerificationEmail($user_id
                                            ,$fName
-                                           ,$lName
                                            ,$user_email
                                            ,$activateAccountHash)) 
             {
-            
-              $this->messages[] = "Check your email for a verification email
-              to activate your account";
+              $this->messages[] = "<p color= 'white' font-size='2em'>Check your email for a verification email
+              to activate your account<p>";
               $this->registration_successful = true;
             } 
             else {
            
               // delete user because we could not send a verification email
               $delete_new_user = $this->conn->query
-              ("delete from artistLogin where artistId = $user_id");
+              ("delete from people where peopleId = '$user_id'");
             
               // reset the auto_increment to the proper
               $delete_new_user = $this->conn->query
-              ("Alter table artistLogin AUTO_INCREMENT = $user_id");  
+              ("Alter table people AUTO_INCREMENT = '$user_id'");  
              
               $this->errors[] = "Failed to send the verification email";
             }
@@ -260,29 +286,20 @@ class Registration
       // then use it that session variable with the absolute path
       
       $path = $this->USER_UPLOAD_PATH;
+
+      $this->USER_UPLOAD_PATH . $user_name; 
+      // run shell mkdir command to make a users directory     
+      shell_exec("mkdir ../" . $user_name);
       
-      if (mkdir($path . $user_name ,0777)) {
-      }
-      else {
-        $this->errors[] = "There was a problem making the directory ";
-        var_dump(file_exists($path . $user_name));
-      }
     }
   }  // end registerNewUser function  
   
 
 //-----------------------------------------------------------------------------------------
 
-
-
-
-
-
-
   
   public function sendVerificationEmail($user_id
                                        ,$fName
-                                       ,$lName
                                        ,$user_email
                                        ,$activateAccountHash) 
                                        
@@ -295,7 +312,7 @@ class Registration
     $message->setTo(array("$user_email" => "Hello"));
     $message->setFrom(array('evansdb0@sewanee.edu' => 'Haiti Customer Service'));
     
-    $link = "http://hive.sewanee.edu/evansdb0/pp/SignUp.php".
+    $link = "http://hive.sewanee.edu/evansdb0/eArt/SignUp.php".
     
                       "?id=" . urlencode($user_id) . "&verification_code="
                       
@@ -303,7 +320,7 @@ class Registration
     
     $message->setBody
     
-    ("<pre><p style='font-family: Times New Roman; font-size: 14px'>Dear $fName $lName,\n
+    ("<pre><p style='font-family: Times New Roman; font-size: 14px'>Dear $fName,\n
 We would like to thank you for signing up for our website.
 If you have any trouble, call our customer service at 555-5555-555.
 \nClick ". "<a href='$link'>here</a>" . " to verify your account. Hope you enjoy! \n 
@@ -321,6 +338,7 @@ Daniel Evans</p></pre>"
     if(!$result)  return false; else return true; 
  
   } // end sendVerificationEmail function 
+    
   
   public function verifyNewUser($user_id, $activateAccountHash)
   
@@ -332,9 +350,9 @@ Daniel Evans</p></pre>"
       
       $update_new_user = $this->conn->query
       
-      ("update artistLogin set userActive = 1, userActiveHash = '$activateAccountHash'
+      ("update people set userActive = 1, userActiveHash = '$activateAccountHash'
       
-      where artistId = '$user_id'");
+      where peopleId = '$user_id'");
       
       if(!$update_new_user) echo $this->conn->error;
       

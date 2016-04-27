@@ -1,0 +1,64 @@
+@import url(https://fonts.googleapis.com/css?family=Fredericka+the+Great);
+
+#page h1{
+	color:black;
+	font-family: 'Fredericka the Great', cursive;
+}
+#page{
+	margin:100px;
+	border: 1px solid black;
+	width: 1500px;
+	padding: 35px;
+	box-shadow: 1px 1px 1px 2px black;
+	margin-left: 12%;
+	background:white;
+
+			}
+
+ 
+#one{
+	display:block;
+}
+#leftArrow{
+	padding: 1px;
+	height:100px;
+	width:80px;
+	z-index: 32;
+}
+#leftArrow img {
+
+	border: none;
+	width: 76px;
+	height: 96px
+}
+
+#rightArrow{
+	padding: 1px;
+	height:100px;
+	width:80px;
+	z-index: 32;
+}
+table tr td:hover{
+	background: rgba(0, 59, 87, 1)
+
+}
+#rightArrow img {
+
+	border: none;
+	width: 76px;
+	height: 96px
+}
+}
+table{
+	width:100%;
+
+}
+tr{
+	background: rgba(0, 40, 71, 1);
+	color: white;
+}
+table tr td img{
+	width: 98%;
+	border: 3px solid rgba(0, 40, 71, 1);
+	margin-left: 0.8px;
+}

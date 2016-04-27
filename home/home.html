@@ -1,0 +1,119 @@
+
+<html>
+
+<head>
+ <script src="jquery-1.12.3.js"></script>
+ <script> 
+  var cssStr = "-webkit-transition-property: transformY; -webkit-transition-duration: 1s; transition-property: transform; transition-duration: 3s; position:fixed"
+  function O(i){
+    return document.getElementById(i); 
+  }
+  
+  function cssStuff(){
+      //size of the body
+    var wWidth = O("container").clientWidth;
+    
+    //styling the video 
+    var lWidth = wWidth/8;
+    O("video").setAttribute("style","width:"+ wWidth+"; line-height:0px; z-index:-3;" + cssStr );
+    
+    //height of the video
+    var height = O("video").clientWidth;
+    
+    //styling the logo "young talent house" 
+    var xlog = lWidth*3.5;
+    var ylog = (height/5) * 2.8;
+    O("logo").setAttribute("style","width:"+  lWidth +"; transform:translateX("+xlog+"px); z-index:1; ");
+   
+    //styling the moto "in young artist, we believe"
+    var xbel = lWidth*2;
+    var ybel = height/6;  
+    O("believe").setAttribute("style","width:"+  lWidth*2 +"; transform:translate("+xbel+"px,"+ybel+"px); z-index:1;" + cssStr ); 
+     
+    //styling the two buttons and their respective divs
+    var xdiv= lWidth;
+    var ydiv= height/12;
+    var transx =lWidth *2.9;
+    var transy = height/6;
+    O("artist").setAttribute("style", "width:"+xdiv+"px; height:"+ydiv+"px; transform:translate("+(transx)+"px,"+transy+"px); z-index:1;" + cssStr );
+    O("buyer").setAttribute("style", "width:"+xdiv+"px; height:"+ydiv+"px; transform:translate("+(transx+ (ydiv*2)) +"px,"+transy+"px); z-index:1;" + cssStr );
+    
+    O("a1").setAttribute("style","width:"+xdiv*0.5+" ;font-size:2em; background:black; color:white; padding:5px ;border-radius:5px; margin-left:"+xdiv*0.2 +";" + cssStr );
+     O("a2").setAttribute("style","width:"+xdiv*0.5+" ;font-size:2em; background:black; color:white; padding:5px ;border-radius:5px; margin-left:"+xdiv*0.2 +";" + cssStr  );
+     
+     O("moto").setAttribute("style", "transform:translate("+(transx*0.8)+"px,"+(transy *2.5)+"px); z-index:1");
+  
+  }
+
+  $(document).ready(function() {
+    
+    cssStuff();			    
+   }); 
+   $(window).resize(function(){
+    cssStuff();
+});
+   
+  
+ 
+ </script> 
+</head>
+
+<body>
+  <div class="container" id="container">
+    <div class="top" id="top">
+      <video id="video" poster="background.jpeg" src="hutAnimation.mp4" preload autoplay loop muted>
+      </video>
+     <img src="logo.png" id="logo" class="logo">
+      <img src="bs.png" id="believe" class="believe">
+     
+      <p id="moto" class="moto"> Good, better, best. Never let it rest. 'Til your good is better and your better is best.<br>
+          -St. Jerome
+      </p>
+      <div id="artist" class="artist">
+        <p><a id="a1" href="../SignUp.php">Artist</a></p><br><br>
+        <p class="join">Join the rest of the college artists and make you art known.</p>
+        
+      </div>
+      <div id="buyer" class="buyer">
+        <p><a id="a2" href="../SignUp.php">Buyer<a></p><br><br>
+        <p class="support">Support explore and buy art made by college artists.</p>
+
+        <a href="http://hive.sewanee.edu/evansdb0/eArt/pHome.php" style="z-index: 30"><button>Go to home page</button></a>
+        
+      </div>
+
+    </div>
+  </div>
+  <style>
+     @import url(https://fonts.googleapis.com/css?family=Fredericka+the+Great);
+     a{
+      font-family: 'Fredericka the Great', cursive;
+     }
+     .support, .join, .moto{
+      font-family: 'Fredericka the Great', cursive;
+      font-size: 1.3em;
+      color:white;
+     }
+    /* .top {
+      position:fixed;
+
+     }
+    .artist{
+      position:fixed;
+      z-index:1;
+
+
+    }
+    .buyer{
+      z-index:1;
+      position:fixed;
+
+     }*/
+    body,html {
+      margin:0;
+      padding:0;
+    }
+  </style>
+</body>
+
+</html>

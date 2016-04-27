@@ -1,0 +1,17 @@
+element.style {
+    visibility: visible;
+    display: block;
+}
+.black_overlay {
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-image: url(https://www.udemy.com/staticx/udemy/js/bower_components/fancybox/source/fancybox_overlay.png);
+    z-index: 1001;
+    -moz-opacity: 0.8;
+    opacity: .8;
+    filter: alpha(opacity=80);
+}

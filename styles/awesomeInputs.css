@@ -1,17 +1,24 @@
 body {
-  padding: 100px;
-  -webkit-font-smoothing: antialiased;
+  
+  padding-top: 120px;
+  margin: 0px;
 }
-
-input {
+ input {
   background: none;
   border: solid 2px #00688B;
   color: #00688B;
   padding: 15px 40px;
   font-size: 18px;
   display: inline-block;
+  
 }
-input:focus, input:active {
+#text-box-container {
+  visibility: hidden;
+}
+.text-inputs {
+  margin-left: 35%;
+}
+ input:focus, input:active {
   outline: none;
 }
 input[type="text"], input[type="email"] {
@@ -26,6 +33,7 @@ input[type="submit"]:active {
   background: #00688B;
   color: white;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .input-group {
@@ -38,6 +46,7 @@ input[type="submit"]:active {
   margin-bottom: 20px;
   margin-top: 20px
 }
+
 .input-group label {
   position: absolute;
   top: 50%;

@@ -4,7 +4,7 @@
 
       $_SESSION['firstName'] = $profile_object->firstName;
       $_SESSION['lastName'] = $profile_object->lastName;
-      $_SESSION['user_id'] = $result_row->userId;
+      $_SESSION['people_id'] = $result_row->userId;
       $_SESSION['user_email'] = $result_row->email;
       $_SESSION['user_logged_in'] = 1;       
 -->
@@ -80,7 +80,7 @@ class LoginA
     elseif (isset($_POST["submit_new_password"])) 
     {
       
-      // function below uses $_SESSION['user_email'] and $_SESSION['user_id']
+      // function below uses $_SESSION['user_email'] and $_SESSION['people_id']
       $this->ResetUserPassword($_POST['user_password_new']
                              ,$_POST['user_password_repeat']);
                              
@@ -99,12 +99,9 @@ class LoginA
     } // end isset($_COOKIE['rememberme'])
     
     // if user just submitted a login form
-    
-    
-    
-    
-    
-    
+
+
+
     elseif (isset($_POST["login"])) 
     {
       
@@ -185,7 +182,7 @@ class LoginA
       $this->conn = new mysqli('crisler.sewanee.edu'
                               ,'user'
                               ,'csci'
-                              ,'artists');  
+                              ,'eArt');  
       // throw error if conn fails
       if ($this->conn->connect_error) die($this->conn->connect_error); 
       return true;
@@ -270,12 +267,13 @@ class LoginA
   
   
   
-  private function loginWithPostData($user_email,$user_password, $user_rememberme) 
+  private function loginWithPostData($user_email
+  	                                ,$user_password
+  	                                ,$user_rememberme) 
   
   
   {
 
-    echo "edsfdsf";
     // checks on the user's input 
     if(empty($user_email))  {
       $this->errors[] = "The email field is empty";
@@ -287,8 +285,7 @@ class LoginA
       $this->errors[] = "The email address entered is invalid";      
     }
     else {
-    
-      echo "dsfdsf";
+
       // if all checks are good and db connection is good 
       // fetch all the info on the user and save it as an object
       if ($this->databaseConnection()) {
@@ -297,7 +294,7 @@ class LoginA
         // ($result_row = $query_user->fetch-object();)
         $get_user_info = $this->conn->query( 
       
-        "select * from artistLogin where email = '$user_email'");
+        "select * from people where email = '$user_email'");
         
         $result_row = $get_user_info->fetch_object();
       }
@@ -310,14 +307,10 @@ class LoginA
     // if the user doesn't exist
     // remove the user doesn't exist bit when done 
     // and replace with failed login
-    if(!(isset($result_row->artistId))) {
-      $this->errors[] = "This user does not exist";
+    if(!(isset($result_row->peopleId))) {
+      $this->errors[] = "Failed login";
     }
-    /*elseif (($result_row->user_failed_logins >= 5) && 
-            ($result_row->user_last_failed_login > (time() - 30))) 
-    {
-      $this->errors[] = "The password was wrong 5 times in a row";
-    }  */
+
     // if the password entered's hash is not the same as the hashed password in db
     elseif (!password_verify($user_password, $result_row->passHash)) {
       // TODO: update the databases's password wrong counter 
@@ -326,30 +319,38 @@ class LoginA
     }
     else { 
     
-      $userId = $result_row->artistId;
+      $userId = $result_row->peopleId;
       
       // get user profile data 
-      $artist_profile = $this->conn->query
+      $people = $this->conn->query
       
-      ("select * from artistLogin where artistId = $userId");
+      ("select * from people where peopleId = $userId");
       
-      $profile_object = $artist_profile->fetch_object();
+      $people_object = $people->fetch_object();
+
       
+// ------------------------SESSION VARIABLES ----------------------------------------- 
       
       // write the user's data into a PHP session 
-      $_SESSION['fName'] = $profile_object->fName;
-      $_SESSION['lName'] = $profile_object->lName;
-      $_SESSION['user_id'] = $result_row->artistId;
+      $_SESSION['fName'] = $people_object->fName;
+      $_SESSION['people_id'] = $result_row->peopleId;
+      $_SESSION['isArtist'] = $result_row->isArtist;
       $_SESSION['user_email'] = $result_row->email;
       $_SESSION['user_logged_in'] = 1;
+
+      if($result_row->isArtist == 1) {
+        $_SESSION['artist_id'] = $result_row->artistId;
+      }
+
+// ---------------------------SESSION VARIABLES ---------------------------------------
       
-      $artist_login = $this->conn->query
+      $people_login = $this->conn->query
       
-      ("select * from artistLogin where artistId = $userId");
+      ("select * from people where peopleId = $userId");
       
-      $login_object = $artist_login->fetch_object();
+      $people_object = $people_login->fetch_object();
       
-      $_SESSION['userName'] = $login_object->userName;
+      $_SESSION['userName'] = $people_object->userName;
       $username = $_SESSION['userName'];
       
       // store path to the artist's directory to do reads and writes
@@ -358,7 +359,7 @@ class LoginA
 
 
       
-      $this->userId = $result_row->artistId;
+      $this->userId = $result_row->peopleId;
       $this->user_email = $result_row->email;
       $this->user_is_logged_in = true;
 
@@ -399,9 +400,9 @@ class LoginA
       $rand_token = hash('sha256', mt_rand());
       $setRememberMeToken = $this->conn->query
       
-      ("UPDATE artistLogin SET rememberMe = '$rand_token' WHERE userId = $userId");
+      ("UPDATE people SET rememberMe = '$rand_token' WHERE people = $userId");
       
-      $cookie_first_part = $_SESSION['user_id'] . ':' . $rand_token;
+      $cookie_first_part = $_SESSION['people_id'] . ':' . $rand_token;
       $secret_key = '1gp@TMPS{+$78sfpMJFe-92s';
       $cookie_hash = hash('sha256', $cookie_first_part . $secret_key);
       
@@ -435,7 +436,7 @@ class LoginA
      if ($this->databaseConnection()) {
        $unsetRememberMeToken = $this->conn->query
       
-       ("UPDATE artistLogin SET rememberMe = NULL WHERE userId = $userId");
+       ("UPDATE people SET rememberMe = NULL WHERE peopleId = $userId");
        // set cookie for 10 years ago to delete it 
        setcookie('rememberme', "delete me cookie", 
        
@@ -491,7 +492,7 @@ class LoginA
       
       $does_user_exist = $this->conn->query
       
-      ("SELECT * FROM artistLogin WHERE email = '$user_email'");
+      ("SELECT * FROM people WHERE email = '$user_email'");
       
       
       // returns either a query result object or false 
@@ -532,20 +533,20 @@ class LoginA
      
      
     // if user exists 
-    if (isset($result_row->userId)) 
+    if (isset($result_row->peopleId)) 
     {
 
-      $userId = $result_row->userId;
+      $userId = $result_row->peopleId;
       
       
       // query db for passResetHash and the PassresetTimestamp
       $setPassResetHashAndPassResetTimestamp = $this->conn->query
       
-      ("update artistLogin set userPassResetHash = '$userPassResetHash',
+      ("update people set userPassResetHash = '$userPassResetHash',
       
       userPassResetTimestamp = '$userPassResetTimestamp' 
       
-      where userId = '$userId'");  
+      where peopleId = '$userId'");  
       
       
       // check if exactly one row was successfully changed:
@@ -635,7 +636,7 @@ class LoginA
     }
     // if this user exists and the verification code 
     // has the same hash in the database
-    if(isset($result_row->userId) && 
+    if(isset($result_row->peopleId) && 
              $result_row->userPassResetHash == $verification_code) 
     {
       
@@ -693,7 +694,7 @@ class LoginA
         // write new password to the database
         $save_new_password = $this->conn->query
         
-        ("UPDATE artistLogin SET passHash = '$passHash' 
+        ("UPDATE people SET passHash = '$passHash' 
          
         WHERE email = '$email'");
           
@@ -724,8 +725,6 @@ class LoginA
  
  
  
- 
- 
   public function passwordResetWasSuccessful()
   {
     return $this->password_reset_was_successful;
@@ -740,6 +739,11 @@ class LoginA
   public function getEmail()
   {
     return $this->user_email;
+  }
+
+  public function helloworld() {
+
+    echo "hello world";
   }
 
       

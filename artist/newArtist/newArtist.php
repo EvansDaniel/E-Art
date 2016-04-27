@@ -17,7 +17,7 @@
   
     <li id="nav1">
       <a href="editProfile.php"><?php 
-                      echo $_SESSION['fName'] . " " . $_SESSION['lName']; 
+                      echo $_SESSION['fName']; 
                  ?>
       </a>
       <ul>
@@ -28,10 +28,6 @@
     
     <li id="nav2"><a href="https://www.flickr.com/explore">Marketing</a>
       <ul>
-        <li><a href="https://www.flickr.com/explore">Recent Photos</a>
-        <li><a href="https://www.flickr.com/vr">Flickr VR</a></li>
-        <li><a href="https://www.flickr.com/commons">The Commons</a>
-        <li><a href="https://blog.flickr.net/en">Flickr Blog</a></li>
       </ul>                      
     </li>
     
@@ -64,3 +60,12 @@
     </li>   
   </ul>
 </nav>
+
+<?php 
+ 
+  
+      echo "<br><br><br><br><br><br><br><br><br><pre>";
+      print_r($_SESSION);
+      echo "</pre>";
+
+?>

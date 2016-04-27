@@ -1,9 +1,10 @@
-@import url(https://fonts.googleapis.com/css?family=Dancing+Script);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300);
+
 
 form{
   border: 1px solid rgba(1, 8, 7, 0.5);
   border-radius: 10px;
-  background: rgba(20, 60, 4, 1);
+  background: rgba(0, 40, 71, 1);
   width:860px;
   height: 820px;
   margin-left: 20%;
@@ -13,10 +14,15 @@ form{
   box-shadow: 1px 1px 2px 2px black;
   
   
+  
 }
 
 body{
   background: url("http://hive.sewanee.edu/iradub0/webDevelopment/5/background.jpg");
+  color:white;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 1.2em;
+  
 
 }
 
@@ -30,7 +36,6 @@ body{
   font-size: 24px;
   font-weight: bold;
   margin-left: 18.3%;
-  font-family: 'Dancing Script', cursive;
   background: rgba(37,37,37,0.9);
   color:white;
   margin-top: 10px;
@@ -38,7 +43,15 @@ body{
   box-shadow: 1px 1px 2px 2px black;
 
   }
+#title{
+  margin-left: 20%;
+}
 
+
+#icon img{
+  width: 150px;
+  height: 70px;
+}
 #icon{
  
   display: block; 
@@ -51,11 +64,12 @@ body{
   font-weight: bold;
   margin-left: 18%;
   margin-bottom: 40px;
-  background: black;
+  background:rgba(0, 40, 71, 1);
   background-repeat: no-repeat;
   padding-left: 90px;
   box-shadow: 1px 1px 2px 2px gray;
 }
+
 a:link {
     text-decoration: none;
 
@@ -70,8 +84,8 @@ table{
   padding: 10px;
   margin-left: 80px;
   margin-top: 0px;
-  text-transform: uppercase;
-  font-family: ‘Courier New’, Courier, monospace;
+  
+
 }
 
 #FirstName, #LastName {
@@ -82,7 +96,7 @@ input{
   height: 35px;
   border: 1px solid #999999;
   margin-bottom: 10px;
-  font-family: ‘Courier New’, Courier, monospace;
+
   font-weight: bold;
   padding-left:10px;
   border-radius: 5px; 
@@ -99,15 +113,18 @@ i{
 #reload{
    margi
   }
+#submit{
+  cursor: pointer
+}
 p{
-  font-family: ‘Courier New’, Courier, monospace;
+
   font-weight: bold;
   margin-left: 210px; 
 }
 button{
  height: 45px;
  width: 140px;
- background: rgba(10,45,19,1);
+ background: rgba(113, 142, 136, 1);
  outline: none;
  font-size: 18px;
  border: 1px solid rgba(10,45,19,1);
@@ -118,6 +135,7 @@ button{
  text-shadow: 1px 1px 1px rgba(30, 30, 30, 0.8);
  box-shadow: 1px 1px 1px 2px black;
  text-transform: uppercase;
- font-family: ‘Courier New’, Courier, monospace;
+ font-family: 'Open Sans Condensed', sans-serif;
+
  font-weight: bold;
 }
