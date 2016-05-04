@@ -1,6 +1,6 @@
 body {
   
-  padding-top: 120px;
+  padding-top: 200px;
   margin: 0px;
 }
  input {
@@ -13,7 +13,6 @@ body {
   
 }
 #text-box-container {
-  visibility: hidden;
 }
 .text-inputs {
   margin-left: 35%;

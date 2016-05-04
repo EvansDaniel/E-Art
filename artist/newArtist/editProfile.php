@@ -3,8 +3,15 @@
   
   <head>
 
-  	<link rel="stylesheet" type="text/css" href="../../styles/pHome.css">
-    <link rel="stylesheet" type="text/css" href="../../styles/awesomeInputs.css">
+    <title>Edit Profile</title>
+
+  	<link rel="stylesheet" type="text/css" href="../../styles/pHome.css?"<?php
+      echo time();
+    ?>>
+    <link rel="stylesheet" type="text/css" href="../../styles/awesomeInputs.css?" <?php
+      echo time();
+    ?>>
+    <link rel="stylesheet" href="../../styles/dropZone.css">
     <script src="../../scripts/jquery-1.12.3.min.js"></script>
 
   </head>
@@ -16,6 +23,8 @@
         
           <li id="nav1">
           <?php 
+          // session lifetime for 1 hour
+          ini_set('session.gc_maxlifetime',3600);
           session_start();
           echo "<a href=
           'http://hive.sewanee.edu/evansdb0/eArt/artist/newArtist/editProfile.php'>"
@@ -24,7 +33,7 @@
        
           </li>
           
-          <li id="nav2"><a href="https://www.flickr.com/explore">Marketing</a>
+          <li id="nav2"><a>Marketing</a>
                                  
           </li>
           
@@ -42,7 +51,7 @@
           
           <li id="nav4">
           </li>
-          <li id="nav5"><form><input type="search"  class="Search" method="get" name="Search"
+          <li id="nav5"><form><input type="search"  class="Search" method="get" name="search"
               placeholder="Photos, people, places..."></form>
           </li>
           
@@ -67,6 +76,13 @@
       ini_set('display_errors', 1);
       error_reporting(E_ALL);
       require_once("../../dbLogin.php");
+
+      if(isset($_GET['search'])) {
+        $s = $_GET['search'];
+        header("Location: http://hive.sewanee.edu/evansdb0/eArt/pHome.php?search="
+
+         . $s);
+      }
 
     ?>
 <div>
@@ -141,6 +157,8 @@
 </div>
 
     <?php 
+
+        echo phpinfo();
       
       $con = new mysqli($host
                         ,$u
@@ -253,8 +271,6 @@
       
       // -----------------------END COLLEGE--------------------------- 
 
-      a($_SESSION);
-
     ?>
 
     <script>
@@ -313,6 +329,93 @@
         else return $r;
       }
     ?>
+        <div><img id="uploadedPic" src="" height="200px"></div>
+    
+   <div class="dropzone" id="dropzone">Drop a profile picture here</div>
+
+<script>
+
+
+  // ondrop changes the page when you drop stuff on the drop zone
+  // it calls the upload function which is passed the file portion 
+  // of whatever was dropped on the drop zone 
+
+  // next we loop through the files that were 'dropped' 
+  // and append them to the formData object 
+
+  // we then open a connection with uploadPic.php (the upload handler)
+  // and send it the php script 
+
+  (function() {
+
+      <?php 
+      // echo the name of the profilePic file for JS to send to uploadPic.php
+      echo "var profilePic = '" . $_SESSION['userName'] . "profilePic';";
+      ?>
+     
+      
+      var dropzone = document.getElementById("dropzone");
+
+      var upload = function (files) {
+
+         var formData = new FormData(),
+              xhr = new XMLHttpRequest(),
+              x;
+
+         for(x = 0; x < files.length; x++) {
+
+         console.log(files[x]);
+
+         formData.append("file[]",files[x]);
+         }
+         formData.append('profilePic',profilePic);
+         console.log(formData);
+         xhr.open('post','uploadPic.php');
+         xhr.send(formData);
+
+
+        xhr.onload = function() {
+          var data = this.responseText;
+          console.log(data);
+          document.getElementById('uploadedPic').src= data;
+          /*var btn = document.createElement("BUTTON");        
+          var t = document.createTextNode
+          ("Upload successful! Back to your store");       
+          btn.appendChild(t);                              
+          document.body.appendChild(btn);        
+
+          */
+          // the commented stuff is for a button taking them 
+          // back to the products page
+        };
+      }
+
+      dropzone.ondrop = function(e) {
+        e.preventDefault();
+        this.className = 'dropzone';
+        this.innerHTML = "Uploading... "
+        upload(e.dataTransfer.files);
+
+      };
+
+
+      dropzone.ondragover = function() {
+
+        this.className = 'dropzone dragover';
+        return false;
+      };
+
+      dropzone.ondragleave = function() {
+
+        this.className = 'dropzone';
+        return false;
+      };
+  }());
+
+
+
+</script>
+
   
   </body>
 

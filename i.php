@@ -40,11 +40,12 @@ if (isset($login)) {
 if($login->isUserLoggedIn() == true && $_SESSION['isArtist'] == 1) {
   header('Location: http://hive.sewanee.edu/evansdb0/eArt/artist/newArtist/products.php');
 }
-// user is a buyer
-elseif($login->isUserLoggedIn() == true && !($_SESSION['isArtist'] == 1)) {
+// user is a buyer / logged out 
+elseif(!($_SESSION['isArtist'] == 1)) {
   
  header('Location: http://hive.sewanee.edu/evansdb0/eArt/pHome.php'); 
 } 
+
 
 ?>
   <body>

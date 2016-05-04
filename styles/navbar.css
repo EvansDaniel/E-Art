@@ -25,27 +25,41 @@ References to accessibility:
 .icon a{
   padding: 10px 
 }
-.body {
-  margin: 0;
-
-}
 .icon {
     height: 80px;
     width: 100px;
     position: relative;
 }
-#artist {
-  text-decoration: underline;
+.haiti {
+    font-weight: bold;
+    color: white;
+    font-size: 28px;
+    position: absolute;
+    transform: translate(-17%, -9%);
+    cursor: pointer;
+    
+}
+html, body{
+  margin: 0px;
+  padding: 0px;
 }
 
-
+nav ul ul {
+ 
+    /* causes all ul's under nav ul to dissapear */
+    background: #5f6975; 
+    border-radius: 0px; 
+    padding: 0;
+    position: absolute; 
+    height: 170px;
+    display: none;
+}
 /*The > child selector makes sure only the child UL of the LI being hovered is targeted */
-
 nav ul li:hover > ul {
     /* To make these menus reappear they need to be converted
     back to block elements on hover of the LI */
         display: block;
-    
+        font-family: "chaparral-pro",serif;
         
 }
 nav ul {
@@ -54,7 +68,7 @@ nav ul {
       border-radius: 10px;  
       list-style: none;
       position: relative;
-
+       white-space: nowrap;
 }
 nav ul:after {
         content: ""; clear: both; display: block;
@@ -78,18 +92,25 @@ nav ul li a {
 }
 
 
+#spaceHeader {
+  min-width: 550px;
+  display: block; padding: 25px 40px;
+  color: white; text-decoration: none;
+  transform: translate(25%, 6%);
+  white-space: nowrap;
+}
 /* The search box */
 .Search {
     height: 40px;
     width:  115%;
-    background-image: url(../images/search.svg);
+    background-image: url(http://hive.sewanee.edu/evansdb0/pp/images/search.svg);
     background-repeat:no-repeat;
     background-size: 25px 25px;
     background-position: 5px 6px;
     outline:0;
     text-indent: 30px;
     border-radius: 5px;
-    /*transform: translate(%, 0%);*/
+    transform: translate(%, 0%);
     
 }
 .Search:hover {
@@ -100,27 +121,42 @@ nav ul li a {
     background: rgb(18, 143, 220);
     height: 40px;
     width: 126px;
-    transform: translate(25%, -25%);
+    transform: translate(25%, 42%);
     font-size: 16px;
     text-decoration: none;
     color: white;
     cursor: pointer;
     border: none;
     border-radius: 5px;  
-    
-}
+    }
 
+.HomeImg1 {
+  /* removes whitespace from img divs... also using this doctype <!DOCTYPE HTML PUBLIC
+  "-//W3C//  DTD HTML 4.0 Transitional//EN"> will do the same look here for info:
+  http://stackoverflow.com/questions/18508442/remove-whitespace-between-div-element */
+ 
+  line-height: 0;
+  height:0px;
+}
+.HomeImg2 {
+  line-height: 0;
+}
+.inspire{
+  transform: translate(50%, -50%);
+}
 #navs{
-      position: fixed;
+      position: absolute;
       min-width: 100%;
       background: rgba(0, 40, 71, 1);
       height: 100px;
       margin: 0px;
       top: 0;
       z-index: 3;
-      margin-bottom: 34px;
+      margin-bottom: 38px;
       line-height: 16px;
-      font-size: 20px
+      font-size: 20px;
+      font-family: 'Open Sans Condensed', sans-serif;
+      font-weight: bold;
       
 }
 #nav1:hover, #nav2:hover, #nav3:hover,#nav6:hover, #nav7:hover,  #nav4:hover{
@@ -128,7 +164,7 @@ nav ul li a {
   
 }
 #nav6{
-  margin-right: 12px;
+  margin-left: 50px;
 }
 #nav1, #nav2, #nav3,#nav4 {
       float: left;
@@ -146,7 +182,7 @@ nav ul li a {
       width:10%;
       overflow: none;
       z-index:1;
-      margin-right: 3%;
+      margin-right: 100px;
       }
 #nav5 form input{
       -webkit-transition-property: width; /* Safari */
@@ -155,7 +191,7 @@ nav ul li a {
       transition-duration: 1s;
 }
 #nav5 form input:focus{
-    width: 400px;
+    width: 300px;
     background: rgba(0,0,0,1);
     z-index: 222;
     color:white;
@@ -172,7 +208,6 @@ nav ul li a {
       z-index:1;
       margin-left: 1px;
 }
-
 nav ul li:hover a {
     /* color of links when hovering */
         color: #fff;
@@ -204,26 +239,35 @@ nav ul li input {
 }
 input:-ms-input-placeholder { /* Internet Explorer 10+ */
     text-align: left;
-   
 }
 input::-webkit-input-placeholder { /* WebKit browsers */
     text-align: left;
-    
 }
 input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     text-align: left;
 }
 input::-moz-placeholder { /* Mozilla Firefox 19+ */
    text-align: left;
-  
 }
-
-
 #signUp:hover {
     opacity: .87;   
     outline: none;
 }
+#inspire{
   
+  position: absolute;
+  background: rgba(238, 237, 253, 0.4);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 1);
+  border-radius: 5px;
+  width: 200px;
+  height: 50px;
+  font-size: 1.5em;
+  font-family: â€˜Courier Newâ€™, Courier, monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  }  
+/* new shit */
 .login {
   display: none;
   position: absolute;
@@ -237,7 +281,6 @@ input::-moz-placeholder { /* Mozilla Firefox 19+ */
   box-shadow: 0px 0px 4px 1px #ccc;
   opacity: 1;
   border-radius: 7.5px;
-  font-family: 'Open Sans Condensed', sans-serif;
 }
 .black_overlay{
             display: none;
@@ -268,50 +311,55 @@ input::-moz-placeholder { /* Mozilla Firefox 19+ */
 .box-heading {
   border-bottom-color: rgb(211, 211, 211)
   border-bottom-style: solid
-  border-bottom-width: 1px;
-  font-family: 'Open Sans Condensed', sans-serif;
+  border-bottom-width: 1px
 }
 
-
+#HomeImg1 {
+  /* removes whitespace from img divs... also using this doctype <!DOCTYPE HTML PUBLIC
+  "-//W3C//  DTD HTML 4.0 Transitional//EN"> will do the same look here for info:
+  http://stackoverflow.com/questions/18508442/remove-whitespace-between-div-element */
+ 
+  line-height: 0;
+}
+#HomeImg2 {
+  line-height: 0;
+}
 .login-primary{
-  background: rgba(18, 143, 220,.93);
-  width: 300px;
-  height: 50px;
+  background:rgba(13, 171, 68, 0.93);
+  width: 350px;
+  height: 60px;
   margin:auto;
-  margin-left: 35px;
+  margin-left: 28px;
   text-align: center;
   font-size: 34px;
   color:white;
   border: 1px solid;
   border-radius: 10px;
   font-weight: bold;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: Impact, Haettenschweiler, 'Franklin Gothic Bold', Charcoal, 'Helvetica Inserat', 'Bitstream Vera Sans Bold', 'Arial Black', 'sans serif';
   cursor: pointer;
   outline:none;
-
 }
 
 
 .email-input{
-  border: 1px ridge rgb(18, 143, 220);
+  border: 1px ridge rgba(13, 171, 68, 0.93);
   width:300px;
   height: 30px;
   border-radius:10px;
   padding:10px;
-  margin-top: 30px;
+  margin-top: 50px;
   margin-bottom: 10px;
   margin-left: 40px;
-  font-size: 18px;
-  font-family: 'Open Sans Condensed', sans-serif;
-  padding: 3px;
+  font-size: 20px;
+  font-family: Impact, Haettenschweiler, 'Franklin Gothic Bold', Charcoal, 'Helvetica Inserat', 'Bitstream Vera Sans Bold', 'Arial Black', 'sans serif';
   cursor:text;
   outline:none;
-  text-indent: 3px;
   
 }
 .pass-input{
 
-  border: 1px ridge rgb(18, 143, 220);
+  border: 1px ridge rgba(13, 171, 68, 0.93);
   width:300px;
   height: 30px;
   border-radius:10px;
@@ -319,11 +367,10 @@ input::-moz-placeholder { /* Mozilla Firefox 19+ */
   margin-top: 5px;
   margin-bottom: 10px;
   margin-left: 40px;
-  font-size: 18px;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 20px;
+  font-family: Impact, Haettenschweiler, 'Franklin Gothic Bold', Charcoal, 'Helvetica Inserat', 'Bitstream Vera Sans Bold', 'Arial Black', 'sans serif';
   cursor:text;
   outline:none;
-  text-indent: 3px;
 
 }
 #or{
@@ -356,11 +403,11 @@ input::-moz-placeholder { /* Mozilla Firefox 19+ */
 
 #hline{
 
-  border-top: 1px solid rgb(18, 143, 220);
+  border-top: 1px solid rgba(13, 171, 68, 0.8);
   margin-left: 10px;
   margin-right:10px
-  
-  }
+
+}
 .box-footer{
 
   font-family: Impact, Haettenschweiler, 'Franklin Gothic Bold', Charcoal, 'Helvetica Inserat', 'Bitstream Vera Sans Bold', 'Arial Black', 'sans serif';
@@ -370,187 +417,24 @@ input::-moz-placeholder { /* Mozilla Firefox 19+ */
   font-size: 12px;
   font-style:italic;
   color:rgba(54, 54, 54, 0.88);
-  }
-
-html, body{
-  font-family: 'Open Sans Condensed', sans-serif;
-}
-#body{
-  display:block;
-  margin-top: 110px;
-  font-family: 'Open Sans Condensed', sans-serif;
-  font-weight: bold;
-  
-}
-#listings li div a img{
-
-  width: 250px;
-  }
-  
-#listings li{
-  list-style: none;
-  line-height: 24px;
-  float: left;
-  margin-right: -70px;
-  margin-bottom: 34px;
-  line-height: 6px;
-  width: 450px;
-  height: 400px;
-  
-  }
-  
-  
-#listings li div a{
-  text-decoration: none;
-  color: black  
-
 }
 
-#price{
-  color: rgba(102, 39, 0, 1)
-}
 
-.quicklook{
-
-  transform: translate(-170%, -100% );
-  width: 100px;
-  z-index: 250; 
-  font-family: 'Open Sans Condensed', sans-serif;
-  font-weight: bold;
-  font-size: 1em;
-  border: 2px solid black;
-  z-index:-99;
-  visibility:hidden;
-  
-  
-
-}
-
-.quicklook:hover {
-  border: 2px solid rgba(98, 161, 244, 1);
-
-}
-
-#myview{
-
-    		margin-left: 20%;
-    		position:fixed;
-    		width: 800px;
-    		height: 500px;
-    		display: block;
-    		border: 1px solid white;
-    		background: white;
-    	
-    		
-
-    	}
-    	
-    	#img img {
-    		width: 400px;
-    	}
-
-    	#close{
-    		width: 20px;
-    		height: 20px;
-
-    		
-    	}
-    	#img{
-    		float:left;
-    		margin-right: 15px;
-    	}
-    	#itemDes ul{
-    		list-style: none;
-
-
-    	}
-    	#itemDes ul li{
-    		float:left;
-    		margin-right: 10px;
-    	}
-    	#box{
-    		border: 1px solid rgba(124, 129, 131, 1);
-    		margin-left: 414px;
-    		margin-top: 12px;
-    		margin-right:40px;
-
-    	}
-    	#box{
-    		padding: 5px
-    	}
-    	#selection, #Description{
-    		height: 30px;
-    		border: none;
-    		font-size: 1.1em;
-
-    	}
-    	#selection{
-    		background: rgba(0, 40, 71, 1);
-    		color:white;
-    	}
-    	#cart{
-    		margin-top: 12px;
-    		margin-left: 200px;
-    		width: 100px;
-    		margin-top: 22px;
-			background: rgba(0, 40, 71, 1);
-			border: 1px solid black;
-			height: 35px;
-			width: 150px;
-			font-size: 1.3em;
-			font-size: 16px;
-			font-family: 'Open Sans Condensed', sans-serif;
-			border-radius: 15px;
-			box-shadow: 0px -0.5px 2.5px 1.25px rgba(31,20,31,1);
-			font-weight: bold;
-			color:white;
-    	}
-    	#cross{
-    		transform: translate(0px,0px);
-    		background: rgba(0,0,0,0);
-    		border: none;
-    	}
-
-#rememberme{
-  margin-left:150px;
-  display: block;
-}
-#rememberme input{
-  margin-left: 30px
-  }
-
-
-#theitem{
-      display: block;
-      position: absolute;
-}
-    
-#image{
-      position: relative;
-      float: left;
-    }
-    
-    #pic{
-
-      height:450px;
-      
-    }
-#wording{
-  float: right;
+nav ul ul li{
+        float: none;
+        border-top: 1px solid #6b727c;
+        border-bottom: 1px solid #575f6a;
+        position: relative;
+        
 }
 
 
 
-#cart:hover{
-  background: rgba(0, 40, 71, 1);
-}
 
-#listings li div div:hover button{
 
-  visibility: visible;
-  z-index: 22;
 
-}
+
+
 
 
 

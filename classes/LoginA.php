@@ -12,9 +12,6 @@
 
 <?php 
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 // TODO: perform html sanitation on POST vars and/or use prepared statements
 // TODO: 
 

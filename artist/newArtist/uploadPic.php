@@ -3,8 +3,6 @@
 
   session_start();
 
-
-
   ini_set('display_errors', 1);
   error_reporting(E_ALL);
 
@@ -13,20 +11,28 @@
   
 
   
-  header('Content-Type: application/json');
+  // /header('Content-Type: application/json');
 
   $uploaded = array(); 
 
   $uploadDir = "../../../evansdb0/";
   $uploadDir = "../../../" . $_SESSION['userName']."/";
 
-// works 
-  $tempDir = "planes.jpg";
+// works  necessary
+  //$tempDir = "planes.jpg";
 
-  createThumbnail($tempDir);
+  //createThumbnail($tempDir);
 
+  if(isset($_POST['profilePic'])) {
+   //print_r($_SESSION);
+    if(!empty($_FILES['file']['name'][0])) {
+      echo "hello world";
 
+    }
+  }
+ 
 
+if(!isset($_POST['profilePic'])) {
   if(!empty($_FILES['file']['name'][0])) {
 
     
@@ -36,7 +42,7 @@
 
        // $_SESSION['current_img'] . "." . $imageFileType;
 
-      echo $uploadedFile = $uploadDir . $_SESSION['product_name'] . ".". $imageFileType;
+      $uploadedFile = $uploadDir . $_SESSION['product_name'] . ".". $imageFileType;
 
       if(move_uploaded_file($_FILES['file']['tmp_name'][$position], $uploadedFile)) {
          $uploaded[] = array(
@@ -74,6 +80,7 @@
       }
     }
   }
+}
 
   //echo json_encode($uploaded);
 

@@ -12,18 +12,18 @@
        
           </li>
           
-          <li id="nav2"><a href="https://www.flickr.com/explore">Marketing</a>
+          <li id="nav2"><a>Marketing</a>
                                  
           </li>
           
           <li id="nav3">
-          <a href="http://hive.sewanee.edu/evansdb0/eArt/artist/newArtist/addNewProduct.php"
+          <a href="http://hive.sewanee.edu/evansdb0/eArt/artist/newArtist/products.php"
           	>Products</a>
           
             <ul>
               <li id ="mystore"><a id ="mystore" href="http://hive.sewanee.edu/evansdb0/eArt/artist/newArtist/myProduct.php">My Products</li>
               
-              <li id= "add"><a id= "add" href="http://hive.sewanee.edu/evansdb0/eArt/artist/newArtist/addNewProduct.php">Add New Product</li>
+              <li id= "add"><a id= "add" href="http://hive.sewanee.edu/evansdb0/eArt/artist/newArtist/addNewProduct.php">Add New Product</a></li>
             </ul>	
             
           </li>

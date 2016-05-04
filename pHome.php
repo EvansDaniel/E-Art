@@ -5,9 +5,17 @@
 
   <?php 
     session_start();
+    require_once('functions.php');
+    if(loggedIn()) {
+      require_once('./classes/shoppingCart.php');
+      $cart = new shoppingCart($_SESSION['userName']);
+    }
   ?>
   <title>Young Talent House</title>
-  <link rel="stylesheet" type="text/css" href="styles/pHome.css">
+  <link rel="stylesheet" type="text/css" href="styles/pHome.css?" <?php 
+    echo time();
+
+   ?>>
   <script src="scripts/jquery-1.12.3.min.js"></script>
   <script >
       function el(i){
@@ -18,27 +26,19 @@
       el("search").addEventListener('focus', function(){
       
       el("nav7").setAttribute("style","visibility: hidden");
+
     
     
     }, false);
       el("search").addEventListener('blur', function(){
       
       el("nav7").setAttribute("style","visibility: visible");
+      el("nav8").setAttribute("style","visibility: visible");
     
     
     }, false);
 
       var images = jQuery("#listings li div a img");
-
-
-      /*function showQuickLook(){
-        'document.getElementById('myview').setAttribute("style", "visibility:visible")';
-      } */
-     
-
-
-
-
   });
       
   </script>
@@ -48,8 +48,6 @@
    
 <body class="body" id="body">
 
-    
-    
 
 <!--<header class="header"> -->
 
@@ -62,17 +60,17 @@
       href="pHome.php"><img src="images/logo.png"></a></div>
     </li>
     
-    <li id="nav2"><a href=<?php echo "{$_SERVER['PHP_SELF']}?category=paintings"; ?> >Paintings</a>                      
+    <li id="nav2"><a href=<?php echo "{$_SERVER['PHP_SELF']}?category=1"; ?> >Paintings</a>                      
     </li>
     
-    <li id="nav3"><a href=<?php echo "{$_SERVER['PHP_SELF']}?category=photography"; ?>>Photography</a></li>
+    <li id="nav3"><a href=<?php echo "{$_SERVER['PHP_SELF']}?category=2"; ?>>Photography</a></li>
     </li>
     
-    <li id="nav4"><a href=<?php echo "{$_SERVER['PHP_SELF']}?category=sculptures"; ?>>Sculpture</a>
+    <li id="nav4"><a href=<?php echo "{$_SERVER['PHP_SELF']}?category=3"; ?>>Sculpture</a>
     </li>
     
     <li id="nav6" style="margin-left:15px">
-      <a href=<?php echo "{$_SERVER['PHP_SELF']}?category=videos"; ?>>Videos & Films
+      <a href=<?php echo "{$_SERVER['PHP_SELF']}?category=4"; ?>>Videos & Films
       </a>
     </li>
     
@@ -84,7 +82,9 @@
       <?php if($_SESSION['user_logged_in'] != 1) { ?>
       <a href="SignUp.php">Sign Up</a>
       <?php } else { ?>
-      <a href="./buyer/newBuyer/checkout.php">Cart</a>
+      <a href="./buyer/newBuyer/checkout.php">Cart <?php 
+        
+      ?></a>
       <?php } ?>
     </li>
     
@@ -107,7 +107,7 @@
     <div class="login-inner">
       <div class="login-box">
         <h2 class="box-heading">
-                 Login to your 
+                 Login to your account
         </h2>
         <p id="hline">  <p>
         <div class="login-wrapper">
@@ -153,15 +153,22 @@
 <!-- end new shit-->
   <?php 
     require_once('dbLogin.php');
-    require_once("searchFunctions.php");
+    require_once("searchImproved.php");
     $str = " remove(); " ;
+  
 
     $con = new mysqli($host,$u,$p,$db);
     if(isset($_GET['itemId'])) {
-      $itemId = $_GET['itemId'];
 
-      $q = "select name,price,description,imgPath from products 
-      where itemId = $itemId";
+      $itemId = $_GET['itemId'];
+      $_SESSION['itemId'] = $itemId;
+      if(loggedIn()) {
+        $q = "select name,price,description,imgPath from " . $_SESSION['userName'] . 
+        "RecentSearch where itemId = $itemId";
+      }
+      else {
+        $q = "select name,price,description,imgPath from products where itemId = $itemId"; 
+      }
       $r = $con->query($q); 
       if(!$r) die($con->error);
 
@@ -189,17 +196,22 @@
         <div id='box'>
           <p>{$r_arr['description']}</p>
         </div>
-        <button id='cart'>Add to Cart</button>
+        <a href='http://hive.sewanee.edu/evansdb0/eArt/pHome.php?addToCart=$itemId'>
+        <button id='cart'>Add to Cart</button></a>
     </div>
    </div>
 
     <style>
     
       #fade, .black_overlay{
-    visibility: visible; display: block; z-index:1 
+    visibility: visible; display: block; z-index:1; 
     }
+    
     #myview{
       z-index:999;
+    }
+    #body{
+      overflow:hidden;
     }
     </style> 
     "; 
@@ -210,17 +222,35 @@
 
   <ul id="listings">
 <?php 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-if(isset($_GET['search'])) {
+//ini_set('display_errors', 1);
+//error_reporting(E_ALL);
+if(isset($_GET['item'])) {
+  $itemId = $_GET['item'];
+  $_SESSION['itemId'] = $itemId;
+  
+}
+if(isset($_GET['addToCart'])) {
+  if(!loggedIn()) {
+    echo "You need to login to add this to the cart";
+  }
+  else {
+    $_SESSION['itemId'] = $itemId = $_GET['addToCart'];
+    $cart->addItem($itemId);
+  }
+}
+if(isset($_GET['category'])) {
+  $categoryId = $_GET['category'];
+  searchByCategory($categoryId,$con);
+}
+elseif(isset($_GET['search'])) {
   
   $s = $_GET['search'];
-  $_SESSION['search'] = $s;
-  search(get_new_words($s),$con);
+  $_SESSION['lastSearch'] = $s;
+  $productInfo = search(get_new_words($s),$con);
+
 }
 else {
-  search(get_new_words("star wars cities london"),$con);
+  search("star wars cars city cities smoke sports landscape",$con);
 }
 ?>
 
@@ -247,15 +277,17 @@ fade.addEventListener('click', function (event) {
       $('login34').style.visibility = 'hidden';
       $('body').style.overflow='visible';
       document.getElementById('myview').setAttribute('style','visibility:hidden');
-      window.scrollTo(0,0);
+
  });
     // leave 1st line while working on pop up, then erase.. its in the sign up onclick
   function remove(){
 
-        $('fade').style.visibility='hidden';
+      $('fade').style.visibility='hidden';
       $('login34').style.visibility = 'hidden';
       $('body').style.overflow='visible';
       document.getElementById('myview').setAttribute('style','visibility:hidden');
+
+
       }  
 function login() {
       // makes login form pop up 
@@ -265,7 +297,7 @@ function login() {
       document.getElementById('login34').style.display='block';
       document.getElementById('body').style.overflow='hidden';
       document.getElementById("email").focus();
-      window.scrollTo(0,0);
+     
     }
 function $(id) {
   return document.getElementById(id);
@@ -280,21 +312,3 @@ function $(id) {
 </body>
  
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -36,16 +36,6 @@
 
 		?>>
 		<script>
-         
-        
-      	
-          <?php 
-          // outputs the shit blaise needs 
-            //require_once('createThumbnail.php');
-
-            //getProduct($_SESSION['artist_id']);
-
-          ?> 
 
 
 			var images =["../../images/21H.jpg", "../../images/138H.jpg", "../../images/187H.jpg"];
@@ -266,6 +256,22 @@
 	</head>
 
 	<body>
+      <?php 
+
+      // BLAISE WE SHOULD DISPLAY THE BIOGRAPHY OF 
+      // THE ARTIST ON THE LEFT SIDE OF THIS PAGE
+
+            //getProduct($_SESSION['artist_id']);
+      
+      // change the search bar's name to 'search' rather than 'Search'
+      if(isset($_GET['search'])) {
+        $s = $_GET['search'];
+        header("Location: http://hive.sewanee.edu/evansdb0/eArt/pHome.php?search="
+
+        . $s);
+      }
+
+      ?> 
 		<div id="container">
 
 			<?php 

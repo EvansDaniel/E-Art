@@ -2,8 +2,6 @@
 
 
 require_once('swiftmailer/lib/swift_required.php');
-  ini_set('display_errors', 1);
-  error_reporting(E_ALL);
 
 
 class Registration 

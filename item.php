@@ -1,11 +1,11 @@
 
+  <?php 
+    session_start();
+    require_once('functions.php');
+  ?>
 <html lang="en-US">
 
 <head>
-
-  <?php 
-    session_start();
-  ?>
   <title>Life in Haiti</title>
   <link rel="stylesheet" href="styles/item.css">
   <script src="scripts/jquery-1.12.3.min.js"></script>
@@ -29,16 +29,7 @@
     }, false);
 
       var images = jQuery("#listings li div a img");
-
-
-      /*function showQuickLook(){
-        'document.getElementById('myview').setAttribute("style", "visibility:visible")';
-      } */
      
-
-
-
-
   });
       
   </script>
@@ -46,7 +37,7 @@
 
 </head>
    
-<body class="body" id="body">
+<body class="body" id="body" onunload="unloadPage()">
 
     
     
@@ -62,17 +53,17 @@
       href="pHome.php"><img src="images/logo.png"></a></div>
     </li>
     
-    <li id="nav2"><a href=<?php echo "{$_SERVER['PHP_SELF']}?category=paintings"; ?> >Paintings</a>                      
+    <li id="nav2"><a href=<?php echo getHomeURL() ."?category=1"; ?> >Paintings</a>                      
     </li>
     
-    <li id="nav3"><a href=<?php echo "{$_SERVER['PHP_SELF']}?category=photography"; ?>>Photography</a></li>
+    <li id="nav3"><a href=<?php echo getHomeURL() ."?category=2"; ?>>Photography</a></li>
     </li>
     
-    <li id="nav4"><a href=<?php echo "{$_SERVER['PHP_SELF']}?category=sculptures"; ?>>Sculpture</a>
+    <li id="nav4"><a href=<?php echo getHomeURL() ."?category=3"; ?>>Sculpture</a>
     </li>
     
     <li id="nav6" style="margin-left:15px">
-      <a href=<?php echo "{$_SERVER['PHP_SELF']}?category=videos"; ?>>Videos & Films
+      <a href=<?php echo getHomeURL() ."?category=4"; ?>>Videos & Films
       </a>
     </li>
     
@@ -89,7 +80,13 @@
     </li>
     
     <li class="liSignIn" id="nav8">  
-      <button id="signIn" onclick="login()">Sign In
+      <?php if($_SESSION['user_logged_in'] != 1) { ?>
+        <button id="signIn" onclick="login()">Sign In
+        </button>
+      <?php } else { ?>
+        <a href="i.php?logout"><button id="signIn">Log Out
+        </button></a>
+      <?php } ?>
       </button>
     </li>    
   </ul>
@@ -146,11 +143,9 @@
 </div> <!-- login-skin -->
 <div id="fade" class="black_overlay"></div>
 
-<!-- end new shit-->
   <?php 
     require_once('dbLogin.php');
-    require_once("searchFunctions.php");
-
+    require_once("searchImproved.php");
 
     $con = new mysqli($host,$u,$p,$db);
     if(isset($_GET['itemId'])) {
@@ -204,57 +199,69 @@
 
   <ul id="listings">
 <?php 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
+require_once('functions.php');
 if(isset($_GET['search'])) {
   
   $s = $_GET['search'];
-  header("Location: http://hive.sewanee.edu/evansdb0/eArt/pHome.php?search=" . $s);
-
-}
-else {
- // search(get_new_words(),$con);
+  search($s,$con);
+  
 }
 ?>
 
-    <li ="myitem"> 
+<?php 
+ $itemId = $_GET['item'];
+   $q = "select name,imgPath,price,artistId,description,categoryId
+
+    from products where itemId= $itemId";
+
+   $productRow = myQ($q,$con);
+
+   $p_arr = getAssocArr(0,$productRow);
+
+    
+   $artistName = getArtistName($p_arr['artistId'],$con);
+   $category = getCategoryName($p_arr['categoryId'],$con);
+ echo   "<li ='myitem'> 
        <div>
-        <div id="image">
-          <img id="pic" src="http://hive.sewanee.edu/evansdb0/evansdb0/City_Life.jpg">
+        <div id='image'>
+          <img id='pic' src='{$p_arr['imgPath']}'>
         </div>
 
-        <div id="wording">
-        
-        <p id="product">City Life</p>
-        <p id="author">by Daniel</p><br>
-        <p id="finance">Price: $100</p>
-        <p id="category">Photography</p>
-        <p id="descr"> DESCRIPTION: </p>
-        <div id="aboutit"> 
-          <aside>fsaghdavfavfdsvaidfiugdafggfa;ugfdahguohfuoafabgufdbi;faugsdfdaaASDAAdsfadsfgsadagfsafdsigfudguagugdufgau
+        <div id='wording'>
+        <p id='product'>{$p_arr['name']}</p>
+        <p id='author'>by </p>by $artistName<br>
+        <p id='finance'>Price: \${$p_arr['price']}</p>
+        <p id='category'>$category</p>
+        <p id='descr'> DESCRIPTION: </p>
+        <div id='aboutit'> 
+          <aside>{$p_arr['description']}
           </aside>
           </div>
-        <button id="cart">Add to Cart</button>
+        <a href='http://hive.sewanee.edu/evansdb0/eArt/pHome.php?addToCart=$itemId'>
+        <button id='cart'>Add to Cart</button></a>
       
       </div>
       </div>
-    </li><br><hr id="myline">
+    </li>"; 
+
+?><br><hr id="myline">
     
       <p id="relate">Related to this item</p>
       <hr id="myline">
       <br id="thebr">
 <?php 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
+if(isset($_GET['category'])) {
+  $categoryId = $_GET['category'];
+  searchByCategory($categoryId,$con);
+}
 if(isset($_GET['search'])) {
   
   $s = $_GET['search'];
   search(get_new_words($s),$con);
 }
 else {
-  search(get_new_words("star wars cities london"),$con);
+  searchByCategory($p_arr['categoryId'],$con);
+  search("{$p_arr['description']}",$con);
 }
 ?>
 </ul>
