@@ -1,4 +1,4 @@
-Built by Daniel Evans and Blaise Iradukunda
+Built by Daniel Evans and Blaise Iradukunda - Note that the site is currently down because we are migrating the database to a new server
 # E-Art
 Go to: http://hive.sewanee.edu/evansdb0/eArt/ to view the current version of the site
 
