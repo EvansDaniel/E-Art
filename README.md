@@ -3,8 +3,6 @@ Built by Daniel Evans and Blaise Iradukunda
 - Note that the site is currently down because we are migrating the database to a new server
 
 # E-Art
-Go to: http://hive.sewanee.edu/evansdb0/eArt/ to view the current version of the site
-
 The site was built by Daniel Evans, implementing all of the PHP and MySQL procedures, and Blaise Iradukunda, implementing all of the HTML, CSS, and JavaScript/JQuery functionality. We are students at University of the South in Sewanee, TN. You can find Blaise's github account here https://github.com/Blezzoh
 
 We believe that college artists deserve more recognition for their work, and since most artists aren't computer science nerds too,
